@@ -1,6 +1,6 @@
 #  Flamingo Studio - AI Design Generator
 
-**Flamingo Studio** is a state-of-the-art web application that leverages Generative AI to instantly create professional **Posters** and **Certificates** from simple natural language descriptions.
+**Flamingo Studio** is a state-of-the-art web application that uses Generative AI to instantly create professional **Posters** and **Certificates** from simple natural language.
 
 Built with a focus on modern aesthetics ("Tropical Minimalist"), interactivity, and ease of use, it allows creating marketing assets and recognition documents in seconds.
 
