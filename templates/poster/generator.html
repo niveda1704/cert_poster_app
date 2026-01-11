@@ -1,0 +1,83 @@
+{% extends "shared/layout.html" %}
+
+{% block content %}
+<div class="input-section" style="padding: 20px;">
+    <h2><i data-lucide="image"></i> Create New Sticker / Poster</h2>
+
+    <!-- Custom Logo Upload -->
+    <div class="setting-group" style="margin: 20px 0;">
+        <label class="section-label">Institution Logo</label>
+        <div class="file-drop-area custom-upload" id="logo-drop">
+            <input type="file" id="logo-file" accept=".png,.jpg,.jpeg,.svg" hidden>
+            <button class="upload-trigger" onclick="document.getElementById('logo-file').click()">
+                <i data-lucide="upload"></i> Upload Logo
+            </button>
+            <span class="file-name" id="logo-name">Position: Top Right (Default)</span>
+        </div>
+        <div class="logo-position-controls" style="display:flex; gap:10px; margin-top:10px;">
+            <button class="mode-btn active" data-pos="top-left">Top Left</button>
+            <button class="mode-btn" data-pos="top-right">Top Right</button>
+        </div>
+    </div>
+
+    <!-- Templates -->
+    <div class="templates-grid">
+        <div class="template-card" data-template="tech_hackathon" onclick="setPrompt(this.dataset.template)">
+            <div class="t-icon" style="background:#0f172a"><i data-lucide="cpu"></i></div>
+            <span>Hackathon</span>
+        </div>
+        <div class="template-card" data-template="music_concert" onclick="setPrompt(this.dataset.template)">
+            <div class="t-icon" style="background:#be123c"><i data-lucide="music"></i></div>
+            <span>Concert</span>
+        </div>
+        <div class="template-card" data-template="sale" onclick="setPrompt(this.dataset.template)">
+            <div class="t-icon" style="background:#16a34a"><i data-lucide="tag"></i></div>
+            <span>Sale</span>
+        </div>
+    </div>
+
+    <!-- Input -->
+    <label class="section-label">Describe your Poster</label>
+    <div class="textarea-wrapper">
+        <textarea id="prompt" placeholder="E.g. A futuristic hackathon poster..."></textarea>
+        <button id="voice-btn" class="voice-trigger"><i data-lucide="mic"></i></button>
+    </div>
+
+    <button id="generate-btn" class="generate-btn" style="margin-top: 20px;">Generate Poster</button>
+
+    <!-- Result Area -->
+    <div id="result-container" class="hidden" style="margin-top: 40px;">
+        <div class="result-card tile-card" data-tilt>
+            <h3>Preview</h3>
+            <img id="poster-img" src="" style="width:100%; border-radius:12px;">
+            <a id="download-btn" class="primary-btn"
+                style="margin-top:10px; display:block; text-align:center;">Download</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const setPrompt = (key) => {
+        const templates = {
+            tech_hackathon: "Futuristic Hackathon Poster. Dark background #0f172a, Neon Cyan accents. 'Code the Future'.",
+            music_concert: "Vibrant Music Concert Poster. Sunset gradients. 'Summer Vibes'.",
+            sale: "Bold 'Year End Sale' Poster. Red background."
+        };
+        document.getElementById('prompt').value = templates[key] || "";
+    };
+
+    // Simple Generation Logic
+    document.getElementById('generate-btn').addEventListener('click', async () => {
+        const prompt = document.getElementById('prompt').value;
+        const logo = document.getElementById('logo-file').files[0];
+
+        const formData = new FormData();
+        formData.append('prompt', prompt);
+        formData.append('type', 'poster');
+        if (logo) formData.append('logo', logo);
+
+        // Call backend... (Mock for now)
+        alert("Generating Poster with Prompt: " + prompt);
+    });
+</script>
+{% endblock %}

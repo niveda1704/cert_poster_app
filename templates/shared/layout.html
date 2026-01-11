@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Flamingo Studio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="app-layout">
+        <aside class="sidebar glass-panel">
+            <header class="app-header">
+                <a href="/" style="text-decoration:none; color:inherit;">
+                    <div class="logo-area">
+                        <img src="{{ url_for('static', filename='flamingo_logo.png') }}" class="logo-icon"
+                            style="width: 32px;">
+                        <h1>Flamingo</h1>
+                    </div>
+                </a>
+            </header>
+            <!-- Navigation -->
+            <nav style="display:flex; flex-direction:column; gap:10px;">
+                <a href="/generate/poster"
+                    class="mode-btn {% if request.path == '/generate/poster' %}active{% endif %}">
+                    <i data-lucide="image"></i> Poster
+                </a>
+                <a href="/generate/certificate"
+                    class="mode-btn {% if request.path == '/generate/certificate' %}active{% endif %}">
+                    <i data-lucide="file-check"></i> Certificate
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+    <script>lucide.createIcons();</script>
+</body>
+
+</html>

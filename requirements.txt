@@ -1,0 +1,8 @@
+flask
+google-generativeai
+pillow
+reportlab
+qrcode[pil]
+python-dotenv
+requests
+werkzeug

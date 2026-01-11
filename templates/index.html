@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flamingo Studio | AI Design</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 1. Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+    <!-- 2. Custom Cursor Elements -->
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+
+    <div class="app-layout">
+        <!-- Sidebar Controls -->
+        <aside class="sidebar glass-panel">
+            <header class="app-header">
+                <div class="logo-area">
+                    <img src="{{ url_for('static', filename='flamingo_logo.png') }}" alt="Flamingo Logo"
+                        class="logo-icon" style="width: 42px; height: 42px;">
+                    <h1>Flamingo <span class="badge"
+                            style="background:var(--bg-app); color:var(--primary); border-color:var(--border-subtle);">Studio</span>
+                    </h1>
+                </div>
+                <p class="subtitle">Design assets with a tropical touch.</p>
+            </header>
+
+            <div class="controls-wrapper">
+
+                <div class="controls-wrapper">
+
+                    <!-- 1. Mode Toggle -->
+                    <div class="mode-toggle-container">
+                        <div class="mode-toggle">
+                            <button class="mode-btn active" data-mode="poster">
+                                <i data-lucide="image"></i> Poster
+                            </button>
+                            <button class="mode-btn" data-mode="certificate">
+                                <i data-lucide="file-check"></i> Certificate
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 2. Dynamic Templates -->
+                    <div class="templates-section">
+
+                        <!-- Poster Templates -->
+                        <div id="templates-poster" class="templates-grid">
+                            <div class="template-card" data-template="tech_hackathon">
+                                <div class="t-icon" style="background:#0f172a"><i data-lucide="cpu"></i></div>
+                                <span>Hackathon</span>
+                            </div>
+                            <div class="template-card" data-template="music_concert">
+                                <div class="t-icon" style="background:#be123c"><i data-lucide="music"></i></div>
+                                <span>Concert</span>
+                            </div>
+                            <div class="template-card" data-template="workshop">
+                                <div class="t-icon" style="background:#d97706"><i data-lucide="users"></i></div>
+                                <span>Workshop</span>
+                            </div>
+                            <div class="template-card" data-template="sale">
+                                <div class="t-icon" style="background:#16a34a"><i data-lucide="shopping-tag"></i></div>
+                                <span>Sale</span>
+                            </div>
+                        </div>
+
+                        <!-- Certificate Templates (Hidden by default) -->
+                        <div id="templates-certificate" class="templates-grid hidden">
+                            <div class="template-card" data-template="corp_award">
+                                <div class="t-icon" style="background:#1e3a8a"><i data-lucide="award"></i></div>
+                                <span>Award</span>
+                            </div>
+                            <div class="template-card" data-template="diploma">
+                                <div class="t-icon" style="background:#7c3aed"><i data-lucide="scroll"></i></div>
+                                <span>Diploma</span>
+                            </div>
+                            <div class="template-card" data-template="appreciation">
+                                <div class="t-icon" style="background:#059669"><i data-lucide="heart-handshake"></i>
+                                </div>
+                                <span>Thanks</span>
+                            </div>
+                            <div class="template-card" data-template="participation">
+                                <div class="t-icon" style="background:#db2777"><i data-lucide="medal"></i></div>
+                                <span>Badge</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-section">
+
+                        <div class="input-section">
+                            <label for="prompt" class="section-label">
+                                <i data-lucide="message-square"></i> Describe your vision
+                            </label>
+                            <div class="textarea-wrapper">
+                                <textarea id="prompt"
+                                    placeholder="Describe your certificate or poster... e.g., 'Minimalist workshop completion certificate for Jane Doe in golden hues'"></textarea>
+                                <button id="voice-btn" class="voice-trigger" title="Voice Input">
+                                    <i data-lucide="mic"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-group">
+                                <label class="section-label"><i data-lucide="languages"></i> Language</label>
+                                <select id="language" class="custom-select">
+                                    <option value="English">English</option>
+                                    <option value="Tamil">Tamil</option>
+                                    <option value="Hindi">Hindi</option>
+                                    <option value="Spanish">Spanish</option>
+                                    <option value="French">French</option>
+                                    <option value="German">German</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button id="generate-btn" class="generate-btn">
+                            <span class="btn-text">Generate Assets</span>
+                            <i data-lucide="wand-2"></i>
+                        </button>
+
+                        <div class="divider">
+                            <span>OR</span>
+                        </div>
+
+                        <div class="bulk-upload-section">
+                            <label class="section-label"><i data-lucide="upload-cloud"></i> Bulk Generation
+                                (CSV)</label>
+                            <div class="file-drop-area" id="drop-area">
+                                <input type="file" id="csv-file" accept=".csv" hidden>
+                                <button class="upload-trigger" onclick="document.getElementById('csv-file').click()">
+                                    Choose CSV File
+                                </button>
+                                <span class="file-name" id="file-name">No file chosen</span>
+                            </div>
+                            <button id="bulk-btn" class="secondary-btn">Process Bulk</button>
+                        </div>
+                    </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div id="status-container" class="status-overlay hidden">
+                <div class="loader-content">
+                    <div class="spinner"></div>
+                    <h2>Creating Magic...</h2>
+                    <p id="status-text">Analyzing your request</p>
+                </div>
+            </div>
+
+            <div class="results-grid">
+                <!-- Poster Result (Added tilt-card class) -->
+                <div class="result-card tile-card" id="poster-preview" data-tilt>
+                    <div class="card-header">
+                        <h3><i data-lucide="image"></i> Poster Design</h3>
+                        <div class="actions hidden" id="poster-actions">
+                            <a id="download-poster" href="#" download class="action-btn" title="Download PNG">
+                                <i data-lucide="download"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="canvas-container">
+                        <div class="empty-state">
+                            <i data-lucide="layout-template"></i>
+                            <p>Poster preview</p>
+                        </div>
+                        <img id="poster-img" src="" alt="Poster" class="result-img hidden">
+                    </div>
+                </div>
+
+                <!-- Certificate Result (Added tilt-card class) -->
+                <div class="result-card tile-card" id="cert-preview" data-tilt>
+                    <div class="card-header">
+                        <h3><i data-lucide="file-check"></i> Certificate Document</h3>
+                        <div class="actions hidden" id="cert-actions">
+                            <a id="download-cert" href="#" download class="action-btn" title="Download PDF">
+                                <i data-lucide="download"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="canvas-container pdf-container">
+                        <div class="empty-state">
+                            <i data-lucide="file-badge"></i>
+                            <p>Certificate PDF</p>
+                        </div>
+                        <iframe id="cert-pdf" src="" class="result-iframe hidden"></iframe>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Init Icons -->
+    <script>
+        lucide.createIcons();
+
+        document.getElementById('csv-file').addEventListener('change', function (e) {
+            const fileName = e.target.files[0]?.name || 'No file chosen';
+            document.getElementById('file-name').textContent = fileName;
+        });
+    </script>
+
+    <!-- 3. Vanilla Tilt Library for 3D Cards -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+
+</html>
