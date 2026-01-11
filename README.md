@@ -1,30 +1,30 @@
-# 🦩 Flamingo Studio - AI Design Generator
+#  Flamingo Studio - AI Design Generator
 
 **Flamingo Studio** is a state-of-the-art web application that leverages Generative AI to instantly create professional **Posters** and **Certificates** from simple natural language descriptions.
 
 Built with a focus on modern aesthetics ("Tropical Minimalist"), interactivity, and ease of use, it allows creating marketing assets and recognition documents in seconds.
 
-![Flamingo Studio UI](https://via.placeholder.com/800x400?text=Flamingo+Studio+Dashboard)
 
-## ✨ Key Features
 
-*   **🎨 Dual Design Modes**:
+##  Key Features
+
+*   ** Dual Design Modes**:
     *   **Poster Mode**: Create marketing materials for Hackathons, Concerts, Workshops, and Sales.
     *   **Certificate Mode**: Generate creating Awards, Diplomas, and Badges.
-*   **🧠 AI-Powered Generation**: Uses **Google Gemini** to understand prompts and **Pollinations.ai** to generate high-quality background visuals tailored to your theme.
-*   **🏢 Custom Branding**:
+*   ** AI-Powered Generation**: Uses **Google Gemini** to understand prompts and **Pollinations.ai** to generate high-quality background visuals tailored to your theme.
+*   ** Custom Branding**:
     *   Upload your **School/Company Logo**.
     *   AI automatically composites it onto the generated design (Default: Top-Right).
-*   **⚡ Interactive & "Juicy" UI**:
+*   ** Interactive & "Juicy" UI**:
     *   **3D Tilt Cards**: Previews react physically to your mouse movement.
     *   **Liquid Cursor**: Custom fluid visual cursor.
     *   **Confetti Celebration**: Bursts of joy when your generation is complete.
-*   **🎙️ Voice Input**: Speak your vision instead of typing.
-*   **🚀 Quick Templates**: One-click presets for common use cases (e.g., "Tech Hackathon", "Corporate Award").
-*   **📦 Bulk Generation**: Upload a CSV file to generate hundreds of personalized certificates/posters in one go.
-*   **🌍 Multi-Language Support**: Prompts work in English, Tamil, Hindi, Spanish, etc.
+*   ** Voice Input**: Speak your vision instead of typing.
+*   ** Quick Templates**: One-click presets for common use cases (e.g., "Tech Hackathon", "Corporate Award").
+*   ** Bulk Generation**: Upload a CSV file to generate hundreds of personalized certificates/posters in one go.
+*   ** Multi-Language Support**: Prompts work in English, Tamil, Hindi, Spanish, etc.
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 *   **Backend**: Python, Flask
 *   **AI Core**: Google Gemini (via `google-generativeai`), Pollinations.ai
@@ -32,7 +32,7 @@ Built with a focus on modern aesthetics ("Tropical Minimalist"), interactivity, 
 *   **Frontend**: HTML5, Vanilla CSS3 (Glassmorphism), JavaScript (Vanilla Tilt, Canvas Confetti)
 *   **Icons**: Lucide Icons
 
-## 🚀 Installation & Setup
+##  Installation & Setup
 
 1.  **Clone the Repository**
     ```bash
@@ -59,28 +59,9 @@ Built with a focus on modern aesthetics ("Tropical Minimalist"), interactivity, 
 5.  **Access the Dashboard**
     Open your browser and navigate to: [http://localhost:5000](http://localhost:5000)
 
-## 📂 Project Structure
 
-```
-flamingo-studio/
-├── app.py                 # Main Flask Application & Routes
-├── requirements.txt       # Python Dependencies
-├── utils/
-│   ├── ai_engine.py       # Gemini AI integration for text analysis
-│   └── pdf_generator.py   # Graphics engine for compositing images & PDFs
-├── static/
-│   ├── style.css          # Modern "Flamingo" Theme CSS
-│   ├── app.js             # Frontend logic (Cursor, Confetti, API calls)
-│   └── flamingo_logo.png  # Assets
-└── templates/
-    ├── welcome.html       # Landing Page
-    ├── poster/
-    │   └── generator.html # Dedicated Poster Generator
-    └── shared/
-        └── layout.html    # Base Jinja2 Layout
-```
 
-## 📝 Usage Guide
+##   Guide to use this
 
 1.  **Select Mode**: On the welcome screen, choose **"Create Poster"** or **"Create Certificate"**.
 2.  **Upload Logo (Optional)**: Drag & drop your institution's logo to brand your designs.
@@ -93,4 +74,4 @@ flamingo-studio/
 
 ---
 
-*Built with ❤️ (and a lot of pink) by the Flamingo Studio Team.*
+
