@@ -24,6 +24,10 @@ gen_engine = GeneratorEngine()
 def welcome():
     return render_template('welcome.html')
 
+@app.route('/studio')
+def studio():
+    return render_template('index.html')
+
 @app.route('/generate/poster')
 def generate_poster_page():
     return render_template('poster/generator.html')

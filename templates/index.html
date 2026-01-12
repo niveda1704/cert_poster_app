@@ -37,6 +37,16 @@
 
                 <div class="controls-wrapper">
 
+                    <!-- NEW: Audience Selector -->
+                    <div class="setting-group" style="margin-bottom: 1.5rem;">
+                        <label class="section-label"><i data-lucide="users"></i> I am a...</label>
+                        <select id="audience-select" class="custom-select">
+                            <option value="student">Student</option>
+                            <option value="designer">Designer</option>
+                            <option value="manager">Event Manager</option>
+                        </select>
+                    </div>
+
                     <!-- 1. Mode Toggle -->
                     <div class="mode-toggle-container">
                         <div class="mode-toggle">
@@ -96,6 +106,21 @@
 
                     <div class="input-section">
 
+                        <!-- NEW: Logo Upload (Ported) -->
+                        <div class="setting-group" style="margin-bottom: 20px;">
+                            <label class="section-label"><i data-lucide="image-plus"></i> Logo / Brand Asset</label>
+                            <div class="file-drop-area custom-upload" id="logo-drop"
+                                style="padding:15px; border-style:dashed;">
+                                <input type="file" id="logo-file" accept=".png,.jpg,.jpeg,.svg" hidden>
+                                <button class="upload-trigger" onclick="document.getElementById('logo-file').click()"
+                                    style="width:100%">
+                                    <i data-lucide="upload"></i> Upload Logo
+                                </button>
+                                <span class="file-name" id="logo-name" style="margin-top:8px; display:block;">Optional:
+                                    Top Right (Default)</span>
+                            </div>
+                        </div>
+
                         <div class="input-section">
                             <label for="prompt" class="section-label">
                                 <i data-lucide="message-square"></i> Describe your vision
@@ -106,6 +131,73 @@
                                 <button id="voice-btn" class="voice-trigger" title="Voice Input">
                                     <i data-lucide="mic"></i>
                                 </button>
+                            </div>
+                        </div>
+
+                        <!-- NEW: Live Prompt Coach -->
+                        <div id="prompt-coach" class="coach-container hidden">
+                            <div class="coach-header">
+                                <span class="coach-score">Score: <span id="coach-score-val">0</span>/100</span>
+                                <span class="coach-label">AI Coach</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="coach-progress" class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <ul id="coach-tips" class="coach-tips">
+                                <!-- Tips injected here -->
+                            </ul>
+                        </div>
+
+                        <!-- NEW: Audience Specific Tools -->
+                        <div id="audience-tools" class="audience-tools-wrapper">
+
+                            <!-- Student Tools -->
+                            <div id="tools-student" class="tools-panel hidden">
+                                <label class="sub-label">Student Essentials</label>
+                                <div class="tool-row">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="print-safe-toggle">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <span>Print Safe (A4 Margins)</span>
+                                </div>
+                                <div class="warning-box hidden" id="plagiarism-warning">
+                                    <i data-lucide="alert-triangle"></i> Sim: High similarity detected
+                                </div>
+                            </div>
+
+                            <!-- Designer Tools -->
+                            <div id="tools-designer" class="tools-panel hidden">
+                                <label class="sub-label">Design Controls</label>
+                                <div class="range-group">
+                                    <label>Corner Radius</label>
+                                    <input type="range" min="0" max="50" class="custom-range" id="radius-slider">
+                                </div>
+                                <div class="tool-row">
+                                    <button class="tool-btn" id="grid-toggle"><i data-lucide="grid"></i> Grid</button>
+                                    <button class="tool-btn" id="contrast-check"><i data-lucide="eye"></i>
+                                        Contrast</button>
+                                </div>
+                            </div>
+
+                            <!-- Manager Tools -->
+                            <div id="tools-manager" class="tools-panel hidden">
+                                <label class="sub-label">Event Readiness</label>
+                                <div class="checklist">
+                                    <label><input type="checkbox" id="check-brand"> Brand Locked</label>
+                                    <label><input type="checkbox" id="check-venue"> Venue Confirmed</label>
+                                    <label><input type="checkbox" id="check-sponsor"> Sponsors Added</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- NEW: Prompt Remix -->
+                        <div class="remix-section">
+                            <label class="sub-label">Remix Prompt</label>
+                            <div class="chip-row">
+                                <button class="chip-btn" data-remix="formal">Formal</button>
+                                <button class="chip-btn" data-remix="creative">Creative</button>
+                                <button class="chip-btn" data-remix="festive">Festive</button>
                             </div>
                         </div>
 
@@ -143,6 +235,11 @@
                                 <span class="file-name" id="file-name">No file chosen</span>
                             </div>
                             <button id="bulk-btn" class="secondary-btn">Process Bulk</button>
+                            <!-- NEW: CSV Preview for Managers -->
+                            <div id="csv-preview" class="csv-preview hidden">
+                                <small>Previewing 5 rows...</small>
+                                <div class="csv-grid-mock"></div>
+                            </div>
                         </div>
                     </div>
         </aside>
@@ -185,6 +282,10 @@
                             <a id="download-cert" href="#" download class="action-btn" title="Download PDF">
                                 <i data-lucide="download"></i>
                             </a>
+                            <!-- NEW: Share Link -->
+                            <button id="share-btn" class="action-btn" title="Share Design">
+                                <i data-lucide="share-2"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="canvas-container pdf-container">
@@ -196,8 +297,61 @@
                     </div>
                 </div>
             </div>
-        </main>
     </div>
+
+    <!-- NEW: Explainability Panel -->
+    <div class="explain-panel"
+        style="margin-top: 3rem; background: rgba(255,255,255,0.6); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle);">
+        <h3 style="display:flex; align-items:center; gap:8px; font-size:1.1rem; margin-bottom:1rem;"><i
+                data-lucide="sparkles"></i> AI Insights</h3>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+
+            <div>
+                <h4 style="font-size:0.9rem; color:var(--text-muted); margin-bottom:8px;">TEMPLATE SELECTED</h4>
+                <div class="chip"
+                    style="background:white; border:1px solid var(--border-subtle); padding:4px 10px; border-radius:6px; display:inline-block; font-size:0.8rem;">
+                    <i data-lucide="layout"></i> <span id="explain-template">Custom / None</span>
+                </div>
+            </div>
+
+            <div>
+                <h4 style="font-size:0.9rem; color:var(--text-muted); margin-bottom:8px;">STYLE DECISIONS</h4>
+                <ul style="list-style:none; font-size:0.85rem; color:var(--text-main); line-height:1.6;">
+                    <li>• Palette: <b style="color:var(--primary)">Rose & Slate</b></li>
+                    <li>• Typography: <b>Space Grotesk</b> (Headers)</li>
+                    <li>• Composition: <b>Golden Ratio</b> enforced</li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 style="font-size:0.9rem; color:var(--text-muted); margin-bottom:8px;">AI ENHANCEMENTS</h4>
+                <p style="font-size:0.85rem; line-height:1.5;">
+                    The AI automatically adjusted contrast for readability and added a "Glassmorphism" effect based on
+                    current design trends.
+                </p>
+            </div>
+
+        </div>
+    </div>
+    </main>
+    </div>
+
+    <!-- NEW: Flamingo Stage -->
+    <div id="flamingo-stage"
+        style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:9999; overflow:hidden; display:none;">
+    </div>
+
+    <!-- NEW: Floating Camera Element -->
+    <div class="floating-camera" title="Snap a mental picture!">
+        <div class="camera-body">
+            <div class="camera-lens">
+                <div class="lens-reflection"></div>
+            </div>
+            <div class="camera-flash"></div>
+            <div class="camera-shutter"></div>
+        </div>
+    </div>
+
 
     <!-- Init Icons -->
     <script>
